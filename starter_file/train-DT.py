@@ -1,4 +1,4 @@
-from sklearn.linear_model import LogisticRegression
+from sklearn import tree
 import argparse
 import os
 import numpy as np
@@ -38,34 +38,33 @@ def main():
     # Add arguments to script
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--C', type=float, default=1.0, help="Inverse of regularization strength. Smaller values cause stronger regularization")
-    parser.add_argument('--max_iter', type=int, default=100, help="Maximum number of iterations to converge")
+    parser.add_argument('--max_depth', type=int, default=5, help= "Maximum depth of the decision tree")
+    parser.add_argument('--min_samples_leaf', type=int, default=2, help= "The minimum number of samples required to split an internal node")
 
     args = parser.parse_args()
 
     run = Run.get_context()
 
-    run.log("Regularization Strength:", np.float(args.C))
-    run.log("Max iterations:", np.int(args.max_iter))
+    run.log("Max depth:", np.int(args.max_depth))
+    run.log("Min samples leaf:", np.int(args.min_samples_leaf))
 
-    # Create TabularDataset using TabularDatasetFactory
-    # Data is located at:
-    # 'https://raw.githubusercontent.com/aiplanethub/Datasets/master/HR_comma_sep.csv'
-    
-
-    #ds = ### YOUR CODE HERE ###
     ds = TabularDatasetFactory.from_delimited_files(path='https://raw.githubusercontent.com/aiplanethub/Datasets/master/HR_comma_sep.csv')
     
     x, y = clean_data(ds)
 
     # Split data into train and test sets. Set random state to ensure that we have the same partitions for HyperDrive and AutoML
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.33, random_state=42)
+    # We use the paramenter 'statify=y' to ensure that the proportion of observations of each class are conse
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, stratify=y, random_state=123)
 
-    model = LogisticRegression(C=args.C, max_iter=args.max_iter).fit(x_train, y_train)
+    model = tree.DecisionTreeClassifier(max_depth=args.max_depth, min_samples_leaf=args.min_samples_leaf).fit(x_train, y_train)
 
-    accuracy = model.score(x_test, y_test)
+    accuracy = accuracy_score(x_test, y_test)
+    f1score = f1_score(x_test, y_test)
+    auc = roc_auc_score(x_test, y_test, average="weighted")
     run.log("Accuracy ", np.float(accuracy))
-
+    run.log("F1-Score: ", np.float(f1score))
+    run.log("Weighted AUC: ", np.float(auc))
+    
     model_name = "HyperDrive_model.pkl"
     joblib.dump(model, 'outputs/'+model_name)
 
