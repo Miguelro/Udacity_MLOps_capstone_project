@@ -55,7 +55,7 @@ A sample of the data is as follows:
 
 The way I uploaded the dataset to the AzureML environment, was using the following piece of code that you can find in the Jupyter Notebooks `automl.ipynb` and `hyperparameter_tuning.ipynb`.
 
-![Dataset_upload](./screenshots/Dataset_upload_AzureML.png)
+![Dataset_upload](./screenshots/Dataset_upload_AzureML.PNG)
 
 In this code we defined a variable that includes the workspace definition. Then we check whether the dataset is already uploaded to the AzureML platform, and if that is not the case we upload it.
 
@@ -70,7 +70,7 @@ We can get a sample of the dataset using the `Explore` window.
 ## Automated ML
 *TODO*: Give an overview of the `automl` settings and configuration you used for this experiment
 
-In the following image, I include the AutoML configuration that I have chosen for this experiment.
+In the following piece of code, I include the AutoML configuration that I have chosen for this experiment.
 
 ```ruby
 automl_settings = {
@@ -93,7 +93,7 @@ automl_config = AutoMLConfig(compute_target=cpu_cluster,
 
 ```
 
-![AutoML_config](./screenshots/AutoML_config.png)
+
 
 
 ### Results
@@ -112,6 +112,42 @@ automl_config = AutoMLConfig(compute_target=cpu_cluster,
 ## Hyperparameter Tuning
 *TODO*: What kind of model did you choose for this experiment and why? Give an overview of the types of parameters and their ranges used for the hyperparameter search
 
+In the following piece of code, I include the HyperDrive configuration that I have chosen for this experiment.
+
+
+```ruby
+from azureml.train.hyperdrive.policy import BanditPolicy
+from azureml.train.hyperdrive.sampling import RandomParameterSampling
+import numpy as np
+
+# Early termination policy
+early_termination_policy = BanditPolicy(slack_factor = 0.1, 
+                                        evaluation_interval = 2,
+                                        delay_evaluation = 10)
+
+
+#Parameter sampling definition
+param_sampling = RandomParameterSampling( {
+    "--C" : uniform(0.0,10.0),
+    "--max_iter" : choice(10,20,30,40,50,60,70,80,90,100)
+    }
+)
+
+
+
+estimator = ScriptRunConfig(source_directory='.',
+                            command=['python', 'train.py'],
+                            compute_target=cluster_name,
+                            environment=sklearn_env)
+
+hyperdrive_run_config = HyperDriveConfig(run_config=estimator, 
+                             hyperparameter_sampling=param_sampling,
+                             policy=early_termination_policy,
+                             primary_metric_name='Accuracy',
+                             primary_metric_goal= PrimaryMetricGoal.MAXIMIZE,
+                             max_total_runs = 4,
+                             max_concurrent_runs = 2)
+```
 
 ### Results
 *TODO*: What are the results you got with your model? What were the parameters of the model? How could you have improved it?
