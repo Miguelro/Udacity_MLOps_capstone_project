@@ -22,18 +22,18 @@ The steps followed in the project are summarized in the following diagram:
 ### Overview
 *TODO*: Explain about the data you are using and where you got it from.
 
-For this project the company have given us the file `HR Dataset` (https://raw.githubusercontent.com/aiplanethub/Datasets/master/HR_comma_sep.csv), which can download be downloaded from the following link: https://raw.githubusercontent.com/aiplanethub/Datasets/master/HR_comma_sep.csv. The file contains the following variables:
+For this project the company have given us the file `HR Dataset`, which can download be downloaded from the following link: https://raw.githubusercontent.com/aiplanethub/Datasets/master/HR_comma_sep.csv. The file contains the following variables:
 
-  * satisfaccion_nivel : It is the level of employee satisfaction, which takes values between 0-1.
-  * last_ Evaluation : Employee's preformance evaluation. Values between 0-1.
-  * number_projects : How many projects are asigned to thar employee?
-  * average_monthly_hours : How many average hours does an employee work in a month?
-  * time_spent_company : Employee experience. Number of years an employee has been in the company.
-  * work_accident : Whether an employee has had a work accident or not.
-  * Promotion_last_5years : Whether an employee has had a promotion in the last 5 years or not.
-  * sales : Department/division to which the employee belongs.
-  * salario : Salary level of the employee (low, medium or high).
-  * left : Whether the employee has left the company or not (0: No, 1: Yes).
+  * **satisfaccion_nivel :** It is the level of employee satisfaction, which takes values between 0-1.
+  * **last_ Evaluation :** Employee's preformance evaluation. Values between 0-1.
+  * **number_projects :** How many projects are asigned to thar employee?
+  * **average_monthly_hours :** How many average hours does an employee work in a month?
+  * **time_spent_company :** Employee experience. Number of years an employee has been in the company.
+  * **work_accident :** Whether an employee has had a work accident or not.
+  * **Promotion_last_5years :** Whether an employee has had a promotion in the last 5 years or not.
+  * **sales :** Department/division to which the employee belongs.
+  * **salary :** Salary level of the employee (low, medium or high).
+  * **left :** Whether the employee has left the company or not (0: No, 1: Yes).
 
 
 The variable to predict (target) is `left` and the rest can be used as explanatory variables for the study. A sample of the data is as follows:
@@ -55,7 +55,40 @@ A sample of the data is as follows:
 
 The way I uploaded the dataset to the AzureML environment, was using the following piece of code that you can find in the Jupyter Notebooks `automl.ipynb` and `hyperparameter_tuning.ipynb`.
 
-![Dataset_upload](./screenshots/Dataset_upload_AzureML.PNG)
+```ruby
+ws = Workspace.from_config()
+
+# choose a name for experiment
+experiment_name = 'automl_experiment'
+project_folder = './pipeline-project'
+
+experiment=Experiment(ws, experiment_name)
+
+
+
+#Source of the data: https://raw.githubusercontent.com/aiplanethub/Datasets/master/HR_comma_sep.csv
+# We first check if the data is already loaded inthe Workspace. Otherwise, create it from the file
+
+found = False
+key = "HR Dataset"
+description_text = "HR Dataset for capstone project"
+
+if key in ws.datasets.keys(): 
+        found = True
+        dataset = ws.datasets[key] 
+
+if not found:
+        # Create AML Dataset and register it into Workspace
+        example_data = 'https://raw.githubusercontent.com/aiplanethub/Datasets/master/HR_comma_sep.csv'
+        dataset = Dataset.Tabular.from_delimited_files(example_data)        
+        #Register Dataset in Workspace
+        dataset = dataset.register(workspace=ws,
+                                   name=key,
+                                   description=description_text)
+
+
+df = dataset.to_pandas_dataframe()
+```
 
 In this code we defined a variable that includes the workspace definition. Then we check whether the dataset is already uploaded to the AzureML platform, and if that is not the case we upload it.
 
@@ -100,6 +133,8 @@ automl_config = AutoMLConfig(compute_target=cpu_cluster,
 *TODO*: What are the results you got with your automated ML model? What were the parameters of the model? How could you have improved it?
 
 *TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
+
+The best performing model form the AutoML process is a Voting Ensemble.
 
 ![Best_model](./screenshots/TrainingRuns_AutoML.PNG)
 
