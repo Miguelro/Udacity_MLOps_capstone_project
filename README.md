@@ -367,6 +367,13 @@ hyperdrive_run_config = HyperDriveConfig(run_config=estimator,
 
 ### Results
 
+The best hyperparameter configuration that HyperDrive has found is the following:
+
+![Hyperdrive_best_param](./screenshots/HyperDrive_best_param.PNG)
+
+* `C`: 1.488059
+* `max_iter`: 60
+
 The results obtained with HyperDrive class can are summarized in the following image. 
 
 ![Hyperdrive_model_results](./screenshots/Hyperdrive_model_results.PNG)
@@ -466,7 +473,12 @@ Once all the experiments are finished, we proceed to eliminate the services crea
 Link of screencast video: [Youtube_video](https://youtu.be/NHvwtG6lIeE?feature=shared&t=33). It includes:
 - A working model
 - Demo of the deployed  model
-- Demo of a sample request sent to the endpoint and its response
+
+
+Link of the second screencast video_ [Youtube_endpoint_video](https://youtu.be/qoUK6FEMf8A?feature=shared&t=40). It includes:
+- Example of model endpoint consumption based on REST URL and key.
+
+
 
 ## Future Work
 
