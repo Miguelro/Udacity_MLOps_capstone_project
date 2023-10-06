@@ -239,7 +239,6 @@ BEST: The best observed score thus far.
    33   MaxAbsScaler RandomForest                      0:01:00                nan    0.9946
    34   StandardScalerWrapper XGBoostClassifier        0:00:45                nan    0.9946
    36                                                  0:00:04                nan    0.9946
-   37                                                  0:00:04                nan    0.9946
    38    VotingEnsemble                                0:01:13             0.9948    0.9948
    39    StackEnsemble                                 0:01:14             0.9944    0.9948
 
