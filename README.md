@@ -11,7 +11,7 @@ The steps followed in the project are summarized in the following diagram:
 ![capstone_diagram](./screenshots/capstone-diagram.png)
 
 ## Project Set Up and Installation
-*OPTIONAL:* If your project has any special installation steps, this is where you should put it. To turn this project into a professional portfolio project, you are encouraged to explain how to set up this project in AzureML.
+All the useful files can be found in `\starter_files` section.
 
 ## Files
 
