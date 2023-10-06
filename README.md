@@ -1,6 +1,5 @@
 # Employee Churn Rate Problem
 
-*TODO:* Write a short introduction to your project.
 
 A company concerned about the growth in the attrition rate of its employees has asked us to carry out a predictive analysis to be able to anticipate possible future abandonments. So that at the end of the project, you know which group of employees your talent retention efforts focused on.
 
@@ -11,13 +10,14 @@ The steps followed in the project are summarized in the following diagram:
 ![capstone_diagram](./screenshots/capstone-diagram.png)
 
 ## Project Set Up and Installation
-All the useful files can be found in `\starter_files` section.
+
+All the useful files can be found in `\starter_file` section.
 
 ## Files
 
 Useful files:
   
-  * conda_dependencies.yml
+  * `automl.ipynb`
   * `hyperparameter_tuning.ipynb`
     * `train.py`
     * `conda_dependencies.yml`
@@ -239,37 +239,10 @@ BEST: The best observed score thus far.
    33   MaxAbsScaler RandomForest                      0:01:00                nan    0.9946
    34   StandardScalerWrapper XGBoostClassifier        0:00:45                nan    0.9946
    36                                                  0:00:04                nan    0.9946
-ERROR: {
-    "additional_properties": {
-        "statusCode": 400
-    },
-    "error": {
-        "additional_properties": {
-            "debugInfo": null
-        },
-        "code": "UserError",
-        "severity": null,
-        "message": "Unexpected User Error",
-        "message_format": null,
-        "message_parameters": null,
-        "reference_code": null,
-        "details_uri": null,
-        "target": null,
-        "details": [],
-        "inner_error": null,
-        "additional_info": null
-    },
-    "correlation": {
-        "operation": "614d7f99d8e3e2d47d0d7f20f7d69a8d",
-        "request": "7aaae6d9779f1c8e"
-    },
-    "environment": "southcentralus",
-    "location": "southcentralus",
-    "time": {},
-    "component_name": "GlobalJobDispatcher"
-}
+   37                                                  0:00:04                nan    0.9946
    38    VotingEnsemble                                0:01:13             0.9948    0.9948
    39    StackEnsemble                                 0:01:14             0.9944    0.9948
+
 {'runId': 'AutoML_979f9db3-ed3f-4ab4-8b4a-532c929e983a',
  'target': 'cluster-udacity',
  'status': 'Completed',
