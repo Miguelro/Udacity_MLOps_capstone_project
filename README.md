@@ -449,6 +449,10 @@ The way to query the model endpoint is shown in the following image. What we hav
 
 ![Model_endpoint_results](./screenshots/Model_endpoint_results.PNG)
 
+Another way of querying the model endpoint is by using the REST URI. It can be done by using the script `endpoint_v2.py`.
+
+![Model_endpoint_REST](./screenshots/Model_endpoint_REST.PNG)
+
 Moreover, we activated the Application Insights using the following piece of code so as to monitor the logs of the model endpoint.
 
 ```ruby
